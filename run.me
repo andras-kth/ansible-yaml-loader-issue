@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+envs=(with{,out}-libyaml)
+
+cd "$(dirname "$0")"
+
+play() {
+    cp -v test.conf{.orig,}
+    ansible-playbook -i localhost, $1.yaml
+}
+
+run_tests() {
+    source $1/bin/activate 
+    ansible --version | sed /libyaml/{s/^/$'\x1b[1;7m'/\;s/\$/$'\x1b[27m'/\;}
+    play easy
+    play hard
+    deactivate
+}
+
+setup() {
+    python -m venv "$1"
+    source "$1/bin/activate"
+    pip install --global-option=--$1 pyyaml
+    pip install ansible
+    deactivate
+}
+
+for env in "${envs[@]}"
+do [ -r "$env/bin/activate" ] || setup $env
+done
+
+# libyaml appears to get installed no matter what; delete it manually
+rm -vf without-libyaml/lib/python*/site-packages/yaml/_yaml*
+
+for env in "${envs[@]}"
+do run_tests $env
+done
+
+set -x
+diff roles/*/tasks/main.yml
+
+# vim: ft=sh

@@ -1,0 +1,8 @@
+---
+
+- name: Block-in-file with leading TAB
+  blockinfile:
+    path: "{{ test_conf }}"
+    insertbefore: '^};$'
+    marker: "\t// {mark} ANSIBLE MANAGED BLOCK"
+    block: "\textra line with leading TAB;\n\tanother line with leading TAB;\n"

@@ -1,0 +1,9 @@
+---
+
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    test_conf: test.conf
+  roles:
+    - hard_to_read
