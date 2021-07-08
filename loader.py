@@ -10,16 +10,20 @@ from yaml.parser import Parser
 from yaml.resolver import Resolver
 
 try:
-    from _yaml import CParser
+    from yaml import CParser
 except ImportError:
     try:
-        from yaml._yaml import CParser
+        from _yaml import CParser
     except ImportError:
         try:
-            from yaml.cyaml import CParser
+            from yaml._yaml import CParser
         except ImportError:
-            print('Could not find a CParser implementation.  The CParser bug cannot be demonstrated.')
-            raise SystemExit
+            try:
+                from yaml.cyaml import CParser
+            except ImportError:
+                print('Could not find a CParser implementation. \
+                       The CParser bug cannot be demonstrated.')
+                raise SystemExit
 
 
 from ansible.parsing.yaml.constructor import AnsibleConstructor
