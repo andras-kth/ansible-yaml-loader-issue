@@ -1,5 +1,6 @@
 # ansible-yaml-loader-issue
 Demonstrate inconsistent behavior for `ansible.parsing.yaml.loader.AnsibleLoader`
+https://github.com/ansible/ansible/issues/75212
 
 Two equivalent ways to specifiy the same content:
 ```
